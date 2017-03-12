@@ -10,7 +10,7 @@ before_script:
 script:
  - mkdir -p build/logs
  - phpunit --coverage-clover build/logs/clover.xml
- - php coverage-checker.php build/logs/clover.xml 75
+ # - php coverage-checker.php build/logs/clover.xml 75
 
 after_script:
  - php vendor/bin/coveralls -v -x build/logs/clover.xml
