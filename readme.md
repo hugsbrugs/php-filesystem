@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/hugsbrugs/php-filesystem/badge.svg?branch=master)](https://coveralls.io/github/hugsbrugs/php-filesystem?branch=master)
+
 ## php-filesystem
 
 ```
