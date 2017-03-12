@@ -19,33 +19,42 @@ class FileSystem
     public static function scandir_h($directory, $file_extension = null)
     {
         $scanned_directory = [];
+
         try
         {
-            $di = new \RecursiveDirectoryIterator($directory, \RecursiveDirectoryIterator::SKIP_DOTS);
-            $it = new \RecursiveIteratorIterator($di);
-
-            foreach($it as $file)
+            # Test directory exists and is readable
+            if(is_dir($directory) && is_readable($directory))
             {
-                if($file_extension===null)
+                $di = new \RecursiveDirectoryIterator($directory, \RecursiveDirectoryIterator::SKIP_DOTS);
+                $it = new \RecursiveIteratorIterator($di);
+
+                foreach($it as $file)
                 {
-                    array_push($scanned_directory, $file->getFilename());
-                }
-                else
-                {
-                    if($file_extension!==null && pathinfo($file, PATHINFO_EXTENSION) == $file_extension)
+                    if($file_extension===null)
                     {
-                        array_push($scanned_directory, $file->getFilename());
+                        $scanned_directory[] = $file->getFilename();
+                    }
+                    else
+                    {
+                        if(pathinfo($file, PATHINFO_EXTENSION) == $file_extension)
+                        {
+                            $scanned_directory[] = $file->getFilename();
+                        }
                     }
                 }
+                unset($it);
+                unset($di);
             }
-            unset($it);
-            unset($di);
+            else
+            {
+                $scanned_directory = false;
+            }
         }
         catch(Exception $e)
         {
-            error_log('scandir_h : ' . $e->getMessage());
-            $scanned_directory = FALSE;
+            $scanned_directory = false;
         }
+
         return $scanned_directory;
     }
 
@@ -59,37 +68,22 @@ class FileSystem
      * @todo check what rmdir command returns / modify function to return Result array with debugging mesages
      *
      */
-    public static function rrmdir($dir, $del_dir = TRUE)
+    public static function rrmdir($dir, $del_dir = true)
     {
-        $result = FALSE;
+        $result = false;
         try
         {
-            // if(is_dir($dir))
-            // {
-            //     # DEL TREE
-            //     $files = array_diff(scandir($dir), array('.','..'));
-            //     foreach ($files as $file)
-            //     {
-            //         (is_dir("$dir/$file")) ? rrmdir("$dir/$file") : unlink("$dir/$file");
-            //     }
-            //     return rmdir($dir);
-            // }
-            // else
-            // {
-            //     return FALSE;
-            // }
-            
             if(is_dir($dir))
             {
                 foreach(new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir, \FilesystemIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST) as $path)
                 {
                     $path->isDir() && !$path->isLink() ? rmdir($path->getPathname()) : unlink($path->getPathname());
                 }
-                if($del_dir === TRUE)
+                if($del_dir === true)
                 {
                     rmdir($dir);
                 }
-                $result = TRUE;
+                $result = true;
             }
             
         }
@@ -150,103 +144,6 @@ class FileSystem
         }
         return $Response;
     }
-
-    /**
-     * Creates or Modifies a file
-     *
-     * If the file exists and is writable, then we update it's content otherwise we create it (if directory is writable).
-     *
-     * @param string $FileName File name with or without extension 
-     * @param string $FilePath File path where file should be created/updated
-     * @param string $FileExtension File extension with or without . can be empty
-     * @param string $FileContent New file content
-     *
-     * @return array $Result Result : status (error|success) & message (explains error's origin : most probably file access problem)
-     *
-     * @todo change RESULT & MESSAGE to result & message to reflect all functions
-     *
-     */
-    // function save_into_file($FileName, $FilePath, $FileExtension, $FileContent)
-    // {
-    //     $Saved = array("RESULT" => FALSE, "MESSAGE" => "");
-        
-    //     if($FileExtension!=='')
-    //     {
-    //         $FileExtension = '.'.$FileExtension;
-    //     }
-
-    //     if( substr($FilePath, -1)==='/' )
-    //     {
-    //         $File = $FilePath.$FileName.$FileExtension;
-    //     }
-    //     else
-    //     {
-    //         $File = $FilePath. DIRECTORY_SEPARATOR .$FileName.$FileExtension;   
-    //     }
-
-    //     try
-    //     {
-    //         // 1. Check if file exist
-    //         if (file_exists($File))
-    //         {
-    //             if(is_writable($File))
-    //             {
-    //                 $FileWrapper = fopen($File, 'w');
-    //                 if(is_resource($FileWrapper)===TRUE)
-    //                 {
-    //                     $FileWritten = fwrite($FileWrapper, $FileContent );
-    //                     fclose($FileWrapper);
-    //                     if($FileWritten > 0)
-    //                     {
-    //                         $Saved["RESULT"] = TRUE;
-    //                     }
-    //                     else
-    //                     {
-    //                         $Saved["MESSAGE"] .= "Une erreur est survenue pendant l'écriture du fichier.";
-    //                     }
-    //                 }
-    //                 else
-    //                 {
-    //                     $Saved["MESSAGE"] .= "Erreur lors de l'ouverture du fichier.";       
-    //                 }
-    //             }
-    //             else
-    //             {
-    //                 $Saved["MESSAGE"] .= "Le fichier n'est pas accessible en écriture.";
-    //             }
-    //         }
-    //         // 2. Create file
-    //         else 
-    //         {
-    //             // Check if directory exist ...
-    //             $FileWrapper = fopen($File, 'w');
-    //             if(is_resource($FileWrapper)===TRUE)
-    //             {
-    //                 $FileWritten = fwrite($FileWrapper, $FileContent );
-    //                 fclose($FileWrapper);
-    //                 if($FileWritten > 0)
-    //                 {
-    //                     $Saved["RESULT"] = TRUE;
-    //                 }
-    //                 else
-    //                 {
-    //                     $Saved["MESSAGE"] .= "Une erreur est survenue pendant l'écriture du fichier.";
-    //                 }
-    //             }
-    //             else
-    //             {
-    //                 $Saved["MESSAGE"] .= "Erreur lors de l'ouverture du fichier";
-    //             }
-    //         }
-    //     }
-    //     catch(Exception $e)
-    //     {
-    //         error_log("Erreur saveIntoFile : ".$e);
-    //         $Saved["MESSAGE"] .= "Une erreur est survenue pendant l'écriture du fichier : ".$e;
-    //     }
-        
-    //     return $Saved;
-    // }
 
 
     /**
@@ -343,7 +240,7 @@ class FileSystem
      * @return date|FALSE $file_last_mod File last modification date in format 'Y-m-d H:i:s' or FALSE if file does not exists.
      *
      */
-    public static function file_last_mod($file_path, $date_format = 'Y-m-d H:i:s')//'F d Y H:i:s.'
+    public static function file_last_mod($file_path, $date_format = 'Y-m-d H:i:s')
     {
         $file_last_mod = FALSE;
         if (file_exists($file_path))
@@ -421,23 +318,30 @@ class FileSystem
      */
     public static function human_file_size($size, $unit = '')
     {
-        if( (!$unit && $size >= 1<<40) || $unit == "TB")
+        if(is_numeric($size))
         {
-            return number_format($size/(1<<40),2) . " TB";
+            if( (!$unit && $size >= 1<<40) || $unit == "TB")
+            {
+                return number_format($size/(1<<40),2) . " TB";
+            }
+            if( (!$unit && $size >= 1<<30) || $unit == "GB")
+            {
+            return number_format($size/(1<<30),2) . " GB";
+            }
+            if( (!$unit && $size >= 1<<20) || $unit == "MB")
+            {
+                return number_format($size/(1<<20),2) . " MB";
+            }    
+            if( (!$unit && $size >= 1<<10) || $unit == "KB")
+            {
+                return number_format($size/(1<<10),2) . " KB";
+            }
+            return number_format($size)." bytes";
         }
-        if( (!$unit && $size >= 1<<30) || $unit == "GB")
+        else
         {
-        return number_format($size/(1<<30),2) . " GB";
+            return false;
         }
-        if( (!$unit && $size >= 1<<20) || $unit == "MB")
-        {
-            return number_format($size/(1<<20),2) . " MB";
-        }    
-        if( (!$unit && $size >= 1<<10) || $unit == "KB")
-        {
-            return number_format($size/(1<<10),2) . " KB";
-        }
-        return number_format($size)." bytes";
     }
 
     /**
@@ -450,9 +354,16 @@ class FileSystem
      */
     public static function get_symbol_by_quantity($bytes)
     {
-        $symbols = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
-        $exp = floor( log($bytes) / log(1024) );
-        return sprintf('%.2f ' . $symbols[$exp], ( $bytes / pow(1024, floor($exp)) ) );
+        if(is_numeric($bytes))
+        {
+            $symbols = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
+            $exp = floor( log($bytes) / log(1024) );
+            return sprintf('%.2f ' . $symbols[$exp], ( $bytes / pow(1024, floor($exp)) ) );
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /**
@@ -465,11 +376,17 @@ class FileSystem
      */
     public static function dir_size($directory)
     {
-        $size = 0;
-        foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory)) as $file)
+        $size = false;
+
+        if(is_dir($directory))
         {
-            $size += $file->getSize();
+            $size = 0;
+            foreach(new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($directory)) as $file)
+            {
+                $size += $file->getSize();
+            }
         }
+        
         return $size;
     }
 
@@ -483,21 +400,26 @@ class FileSystem
      */
     public static function get_disk_usage($path)
     {
-        $disk_usage = [];
+        $disk_usage = false;
+        
+        if(is_readable($path))
+        {
+            $disk_usage = [];
 
-        # get disk space free (in bytes)
-        $df = disk_free_space($path);
-        # and get disk space total (in bytes)
-        $dt = disk_total_space($path);
-        # now we calculate the disk space used (in bytes)
-        $du = $dt - $df;
-        # percentage of disk used - this will be used to also set the width % of the progress bar
-        $dp = sprintf('%.2f',($du / $dt) * 100);
+            # get disk space free (in bytes)
+            $df = disk_free_space($path);
+            # and get disk space total (in bytes)
+            $dt = disk_total_space($path);
+            # now we calculate the disk space used (in bytes)
+            $du = $dt - $df;
+            # percentage of disk used - this will be used to also set the width % of the progress bar
+            $dp = sprintf('%.2f',($du / $dt) * 100);
 
-        $disk_usage['disk_free_space'] = human_file_size($df);
-        $disk_usage['disk_space_used'] = human_file_size($du);
-        $disk_usage['disk_space_total'] = human_file_size($dt);
-        $disk_usage['disk_used_percentage'] = $dp;
+            $disk_usage['disk_free_space'] = FileSystem::human_file_size($df);
+            $disk_usage['disk_space_used'] = FileSystem::human_file_size($du);
+            $disk_usage['disk_space_total'] = FileSystem::human_file_size($dt);
+            $disk_usage['disk_used_percentage'] = $dp;
+        }
 
         return $disk_usage;
     }
@@ -640,68 +562,75 @@ class FileSystem
      */
     public static function unix_file_permissions($path)
     {
-        $perms = fileperms($path);
+        $info = false;
 
-        if(($perms & 0xC000) == 0xC000)
+        if(is_readable($path))
         {
-            # Socket
-            $info = 's';
-        }
-        elseif(($perms & 0xA000) == 0xA000)
-        {
-            # Symbolic Link
-            $info = 'l';
-        }
-        elseif(($perms & 0x8000) == 0x8000)
-        {
-            # Regular
-            $info = '-';
-        }
-        elseif(($perms & 0x6000) == 0x6000)
-        {
-            # Block special
-            $info = 'b';
-        }
-        elseif(($perms & 0x4000) == 0x4000)
-        {
-            # Directory
-            $info = 'd';
-        }
-        elseif(($perms & 0x2000) == 0x2000)
-        {
-            # Character special
-            $info = 'c';
-        }
-        elseif(($perms & 0x1000) == 0x1000) 
-        {
-            # FIFO pipe
-            $info = 'p';
-        }
-        else {
-            # Unknown
-            $info = 'u';
-        }
+            $info = '';
 
-        # Owner
-        $info .= (($perms & 0x0100) ? 'r' : '-');
-        $info .= (($perms & 0x0080) ? 'w' : '-');
-        $info .= (($perms & 0x0040) ?
-                    (($perms & 0x0800) ? 's' : 'x' ) :
-                    (($perms & 0x0800) ? 'S' : '-'));
+            $perms = fileperms($path);
 
-        # Group
-        $info .= (($perms & 0x0020) ? 'r' : '-');
-        $info .= (($perms & 0x0010) ? 'w' : '-');
-        $info .= (($perms & 0x0008) ?
-                    (($perms & 0x0400) ? 's' : 'x' ) :
-                    (($perms & 0x0400) ? 'S' : '-'));
+            if(($perms & 0xC000) == 0xC000)
+            {
+                # Socket
+                $info = 's';
+            }
+            elseif(($perms & 0xA000) == 0xA000)
+            {
+                # Symbolic Link
+                $info = 'l';
+            }
+            elseif(($perms & 0x8000) == 0x8000)
+            {
+                # Regular
+                $info = '-';
+            }
+            elseif(($perms & 0x6000) == 0x6000)
+            {
+                # Block special
+                $info = 'b';
+            }
+            elseif(($perms & 0x4000) == 0x4000)
+            {
+                # Directory
+                $info = 'd';
+            }
+            elseif(($perms & 0x2000) == 0x2000)
+            {
+                # Character special
+                $info = 'c';
+            }
+            elseif(($perms & 0x1000) == 0x1000) 
+            {
+                # FIFO pipe
+                $info = 'p';
+            }
+            else {
+                # Unknown
+                $info = 'u';
+            }
 
-        # World
-        $info .= (($perms & 0x0004) ? 'r' : '-');
-        $info .= (($perms & 0x0002) ? 'w' : '-');
-        $info .= (($perms & 0x0001) ?
-                    (($perms & 0x0200) ? 't' : 'x' ) :
-                    (($perms & 0x0200) ? 'T' : '-'));
+            # Owner
+            $info .= (($perms & 0x0100) ? 'r' : '-');
+            $info .= (($perms & 0x0080) ? 'w' : '-');
+            $info .= (($perms & 0x0040) ?
+                        (($perms & 0x0800) ? 's' : 'x' ) :
+                        (($perms & 0x0800) ? 'S' : '-'));
+
+            # Group
+            $info .= (($perms & 0x0020) ? 'r' : '-');
+            $info .= (($perms & 0x0010) ? 'w' : '-');
+            $info .= (($perms & 0x0008) ?
+                        (($perms & 0x0400) ? 's' : 'x' ) :
+                        (($perms & 0x0400) ? 'S' : '-'));
+
+            # World
+            $info .= (($perms & 0x0004) ? 'r' : '-');
+            $info .= (($perms & 0x0002) ? 'w' : '-');
+            $info .= (($perms & 0x0001) ?
+                        (($perms & 0x0200) ? 't' : 'x' ) :
+                        (($perms & 0x0200) ? 'T' : '-'));
+        }
 
         return $info;
     }
