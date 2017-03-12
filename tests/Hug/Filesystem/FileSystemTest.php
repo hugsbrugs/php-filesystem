@@ -3,6 +3,8 @@
 # For PHP7
 // declare(strict_types=1);
 
+// namespace Hug\Tests\FileSystem;
+
 use PHPUnit\Framework\TestCase;
 
 use org\bovigo\vfs\vfsStream,
@@ -57,7 +59,7 @@ final class FileSystemTest extends TestCase
     /* ************************************************* */
 
     /**
-     * @covers FileSystem::scandir_h
+     * @covers Hug\FileSystem\FileSystem::scandir_h
      */
     public function testCanScanDirectoryWithValidAccessRights()
     {
@@ -68,7 +70,7 @@ final class FileSystemTest extends TestCase
     }
     
     /**
-     * @covers FileSystem::scandir_h
+     * @covers Hug\FileSystem\FileSystem::scandir_h
      */
     public function testCannotScanDirectoryWithInvalidAccessRights()
     {
@@ -77,7 +79,7 @@ final class FileSystemTest extends TestCase
     }
 
     /**
-     * @covers FileSystem::scandir_h
+     * @covers Hug\FileSystem\FileSystem::scandir_h
      */
     public function testCannotScanDirectoryWithInvalidDirectory()
     {
@@ -86,7 +88,7 @@ final class FileSystemTest extends TestCase
     }
 
     /**
-     * @covers FileSystem::scandir_h
+     * @covers Hug\FileSystem\FileSystem::scandir_h
      */
     public function testCanScanDirectoryWithValidFileExtension()
     {
@@ -98,7 +100,7 @@ final class FileSystemTest extends TestCase
     }
     
     /**
-     * @covers FileSystem::scandir_h
+     * @covers Hug\FileSystem\FileSystem::scandir_h
      */
     public function testCannotScanDirectoryWithInvalidFileExtension()
     {
@@ -110,7 +112,7 @@ final class FileSystemTest extends TestCase
     }
 
     /**
-     * @covers FileSystem::scandir_h
+     * @covers Hug\FileSystem\FileSystem::scandir_h
      */
     public function testCanBeUsedAsArray()
     {
@@ -164,7 +166,7 @@ final class FileSystemTest extends TestCase
     /* ************************************************* */
 
     /**
-     * @covers FileSystem::human_file_size
+     * @covers Hug\FileSystem\FileSystem::human_file_size
      */
     public function testCanGetHumanFileSizeWithValidAccessRights()
     {
@@ -186,7 +188,7 @@ final class FileSystemTest extends TestCase
     }
 
     /**
-     * @covers FileSystem::human_file_size
+     * @covers Hug\FileSystem\FileSystem::human_file_size
      */
     public function testCannoGetHumanFileSizeWithInvalidAccessRights()
     {
@@ -199,7 +201,7 @@ final class FileSystemTest extends TestCase
     /* ************************************************* */
 
     /**
-     * @covers FileSystem::get_symbol_by_quantity
+     * @covers Hug\FileSystem\FileSystem::get_symbol_by_quantity
      */
     public function testCanGetSymbolByQuantityWithValidAccessRights()
     {
@@ -221,7 +223,7 @@ final class FileSystemTest extends TestCase
     }
 
     /**
-     * @covers FileSystem::get_symbol_by_quantity
+     * @covers Hug\FileSystem\FileSystem::get_symbol_by_quantity
      */
     public function testCannoGetSymbolByQuantityWithInvalidAccessRights()
     {
@@ -234,7 +236,7 @@ final class FileSystemTest extends TestCase
     /* ************************************************* */
 
     /**
-     * @covers FileSystem::dir_size
+     * @covers Hug\FileSystem\FileSystem::dir_size
      */
     public function testCanGetDirSizeWithValidAccessRights()
     {
@@ -243,7 +245,7 @@ final class FileSystemTest extends TestCase
     }
 
     /**
-     * @covers FileSystem::dir_size
+     * @covers Hug\FileSystem\FileSystem::dir_size
      */
     public function testCannoGetDirSizeWithInvalidAccessRights()
     {
@@ -256,21 +258,21 @@ final class FileSystemTest extends TestCase
     /* ************************************************* */
 
     /**
-     * @covers FileSystem::get_disk_usage
+     * @covers Hug\FileSystem\FileSystem::get_disk_usage
      */
-    public function testCanGetDiskUsageWithValidAccessRights()
-    {
+    // public function testCanGetDiskUsageWithValidAccessRights()
+    // {
         // $test = FileSystem::get_disk_usage(vfsStream::url('exampleDir'));
-        $test = FileSystem::get_disk_usage('/home/hugo/Téléchargements');
-        $this->assertInternalType('array', $test);
-        $this->assertArrayHasKey('disk_free_space', $test);
-        $this->assertArrayHasKey('disk_space_used', $test);
-        $this->assertArrayHasKey('disk_space_total', $test);
-        $this->assertArrayHasKey('disk_used_percentage', $test);
-    }
+        // $test = FileSystem::get_disk_usage('/home/hugo/Téléchargements');
+        // $this->assertInternalType('array', $test);
+        // $this->assertArrayHasKey('disk_free_space', $test);
+        // $this->assertArrayHasKey('disk_space_used', $test);
+        // $this->assertArrayHasKey('disk_space_total', $test);
+        // $this->assertArrayHasKey('disk_used_percentage', $test);
+    // }
 
     /**
-     * @covers FileSystem::get_disk_usage
+     * @covers Hug\FileSystem\FileSystem::get_disk_usage
      */
     public function testCannoGetDiskUsageWithInvalidAccessRights()
     {
@@ -296,7 +298,7 @@ final class FileSystemTest extends TestCase
     /* ************************************************* */
 
     /**
-     * @covers FileSystem::unix_file_permissions
+     * @covers Hug\FileSystem\FileSystem::unix_file_permissions
      */
     public function testCanGetUnixFilePermissionsWithValidAccessRights()
     {
@@ -306,7 +308,7 @@ final class FileSystemTest extends TestCase
     }
 
     /**
-     * @covers FileSystem::unix_file_permissions
+     * @covers Hug\FileSystem\FileSystem::unix_file_permissions
      */
     public function testCannoGetUnixFilePermissionsWithInvalidAccessRights()
     {
