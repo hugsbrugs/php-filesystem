@@ -19,7 +19,7 @@ use Hug\FileSystem\FileSystem as FileSystem;
 // $this->expectException(UnexpectedValueException::class);
 
 /**
- * @covers FileSystem
+ *
  */
 final class FileSystemTest extends TestCase
 {
@@ -59,7 +59,7 @@ final class FileSystemTest extends TestCase
     /* ************************************************* */
 
     /**
-     * @covers Hug\FileSystem\FileSystem::scandir_h
+     *
      */
     public function testCanScanDirectoryWithValidAccessRights()
     {
@@ -70,7 +70,7 @@ final class FileSystemTest extends TestCase
     }
     
     /**
-     * @covers Hug\FileSystem\FileSystem::scandir_h
+     *
      */
     public function testCannotScanDirectoryWithInvalidAccessRights()
     {
@@ -79,7 +79,7 @@ final class FileSystemTest extends TestCase
     }
 
     /**
-     * @covers Hug\FileSystem\FileSystem::scandir_h
+     *
      */
     public function testCannotScanDirectoryWithInvalidDirectory()
     {
@@ -88,7 +88,7 @@ final class FileSystemTest extends TestCase
     }
 
     /**
-     * @covers Hug\FileSystem\FileSystem::scandir_h
+     *
      */
     public function testCanScanDirectoryWithValidFileExtension()
     {
@@ -100,7 +100,7 @@ final class FileSystemTest extends TestCase
     }
     
     /**
-     * @covers Hug\FileSystem\FileSystem::scandir_h
+     *
      */
     public function testCannotScanDirectoryWithInvalidFileExtension()
     {
@@ -112,7 +112,7 @@ final class FileSystemTest extends TestCase
     }
 
     /**
-     * @covers Hug\FileSystem\FileSystem::scandir_h
+     *
      */
     public function testCanBeUsedAsArray()
     {
@@ -166,7 +166,7 @@ final class FileSystemTest extends TestCase
     /* ************************************************* */
 
     /**
-     * @covers Hug\FileSystem\FileSystem::human_file_size
+     *
      */
     public function testCanGetHumanFileSizeWithValidAccessRights()
     {
@@ -188,7 +188,7 @@ final class FileSystemTest extends TestCase
     }
 
     /**
-     * @covers Hug\FileSystem\FileSystem::human_file_size
+     *
      */
     public function testCannoGetHumanFileSizeWithInvalidAccessRights()
     {
@@ -201,7 +201,7 @@ final class FileSystemTest extends TestCase
     /* ************************************************* */
 
     /**
-     * @covers Hug\FileSystem\FileSystem::get_symbol_by_quantity
+     *
      */
     public function testCanGetSymbolByQuantityWithValidAccessRights()
     {
@@ -223,7 +223,7 @@ final class FileSystemTest extends TestCase
     }
 
     /**
-     * @covers Hug\FileSystem\FileSystem::get_symbol_by_quantity
+     *
      */
     public function testCannoGetSymbolByQuantityWithInvalidAccessRights()
     {
@@ -236,7 +236,7 @@ final class FileSystemTest extends TestCase
     /* ************************************************* */
 
     /**
-     * @covers Hug\FileSystem\FileSystem::dir_size
+     *
      */
     public function testCanGetDirSizeWithValidAccessRights()
     {
@@ -245,7 +245,7 @@ final class FileSystemTest extends TestCase
     }
 
     /**
-     * @covers Hug\FileSystem\FileSystem::dir_size
+     *
      */
     public function testCannoGetDirSizeWithInvalidAccessRights()
     {
@@ -258,7 +258,7 @@ final class FileSystemTest extends TestCase
     /* ************************************************* */
 
     /**
-     * @covers Hug\FileSystem\FileSystem::get_disk_usage
+     *
      */
     // public function testCanGetDiskUsageWithValidAccessRights()
     // {
@@ -272,7 +272,7 @@ final class FileSystemTest extends TestCase
     // }
 
     /**
-     * @covers Hug\FileSystem\FileSystem::get_disk_usage
+     *
      */
     public function testCannoGetDiskUsageWithInvalidAccessRights()
     {
@@ -298,7 +298,7 @@ final class FileSystemTest extends TestCase
     /* ************************************************* */
 
     /**
-     * @covers Hug\FileSystem\FileSystem::unix_file_permissions
+     *
      */
     public function testCanGetUnixFilePermissionsWithValidAccessRights()
     {
@@ -308,7 +308,7 @@ final class FileSystemTest extends TestCase
     }
 
     /**
-     * @covers Hug\FileSystem\FileSystem::unix_file_permissions
+     *
      */
     public function testCannoGetUnixFilePermissionsWithInvalidAccessRights()
     {
