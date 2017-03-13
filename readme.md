@@ -1,16 +1,28 @@
-[![Coverage Status](https://coveralls.io/repos/github/hugsbrugs/php-filesystem/badge.svg?branch=master)](https://coveralls.io/github/hugsbrugs/php-filesystem?branch=master)
-
 ## php-filesystem
 
+This librairy is a set of functions to ease filesystem operations and manipulations
+
+[![Build Status](https://travis-ci.org/hugsbrugs/php-filesystem.svg?branch=master)](https://travis-ci.org/hugsbrugs/php-filesystem)
+
+[![Coverage Status](https://coveralls.io/repos/github/hugsbrugs/php-filesystem/badge.svg?branch=master)](https://coveralls.io/github/hugsbrugs/php-filesystem?branch=master)
+
+# Install
+
+Install package with composer
 ```
 composer require hugsbrugs/php-filesystem
 ```
 
-Load Proxies for first Time
+In your PHP code, load librairy
 ```
 require_once __DIR__ . '/../vendor/autoload.php';
 use Hug\FileSystem\FileSystem as FileSystem;
+```
 
+# Usage
+
+List files in a directory optionnaly filter by extension (. and .. are removed from response)
+```
 FileSystem::scandir_h($directory, $file_extension = null);
 ```
 
