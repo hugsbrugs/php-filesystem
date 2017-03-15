@@ -63,10 +63,8 @@ final class FileSystemTest extends TestCase
      */
     public function testCanScanDirectoryWithValidAccessRights()
     {
-        $this->assertInternalType(
-            'array',
-            FileSystem::scandir_h(vfsStream::url('exampleDir'))
-        );
+        $test = FileSystem::scandir_h(vfsStream::url('exampleDir'));
+        $this->assertInternalType('array', $test);
     }
     
     /**
@@ -75,7 +73,8 @@ final class FileSystemTest extends TestCase
     public function testCannotScanDirectoryWithInvalidAccessRights()
     {
         // $this->assertFalse( FileSystem::scandir_h('/root') );
-        $this->assertFalse( FileSystem::scandir_h(vfsStream::url('root')) );
+        $test = FileSystem::scandir_h(vfsStream::url('root'));
+        $this->assertFalse($test);
     }
 
     /**
@@ -84,7 +83,8 @@ final class FileSystemTest extends TestCase
     public function testCannotScanDirectoryWithInvalidDirectory()
     {
         // $this->assertFalse( FileSystem::scandir_h('/coucou') );
-        $this->assertFalse( FileSystem::scandir_h(vfsStream::url('coucou')) );
+        $test = FileSystem::scandir_h(vfsStream::url('coucou'));
+        $this->assertFalse($test);
     }
 
     /**
@@ -92,11 +92,9 @@ final class FileSystemTest extends TestCase
      */
     public function testCanScanDirectoryWithValidFileExtension()
     {
-        $this->assertInternalType(
-            'array',
-            // FileSystem::scandir_h('/home/hugo/Téléchargements', 'txt')
-            FileSystem::scandir_h(vfsStream::url('exampleDir'), 'txt')
-        );
+        // $test = FileSystem::scandir_h('/home/hugo/Téléchargements', 'txt')
+        $test = FileSystem::scandir_h(vfsStream::url('exampleDir'), 'txt');
+        $this->assertInternalType('array', $test);
     }
     
     /**
@@ -116,10 +114,8 @@ final class FileSystemTest extends TestCase
      */
     public function testCanBeUsedAsArray()
     {
-        $this->assertEquals(
-            ['FileSystemTest.php'],
-            FileSystem::scandir_h(__DIR__, 'php')
-        );
+        $test = FileSystem::scandir_h(__DIR__, 'php');
+        $this->assertEquals(['FileSystemTest.php'], $test);
     }
 
 

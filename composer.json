@@ -4,9 +4,12 @@
     "authors": [
         {
             "name": "Hugo Maugey",
-            "email": "hugo@maugey.fr"
+            "email": "hugo@maugey.fr",
+            "homepage": "https://hugo.maugey.fr",
+            "role": "Developer"
         }
     ],
+    "minimum-stability": "dev",
     "require-dev": {
         "phpunit/phpunit": "^6.0",
         "mikey179/vfsStream": "~1",

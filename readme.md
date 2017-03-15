@@ -1,4 +1,4 @@
-## php-filesystem
+# php-filesystem
 
 This librairy is a set of functions to ease filesystem operations and manipulations
 
@@ -6,7 +6,7 @@ This librairy is a set of functions to ease filesystem operations and manipulati
 
 [![Coverage Status](https://coveralls.io/repos/github/hugsbrugs/php-filesystem/badge.svg?branch=master)](https://coveralls.io/github/hugsbrugs/php-filesystem?branch=master)
 
-# Install
+## Install
 
 Install package with composer
 ```
@@ -19,7 +19,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use Hug\FileSystem\FileSystem as FileSystem;
 ```
 
-# Usage
+## Usage
 
 List files in a directory optionnaly filter by extension (. and .. are removed from response)
 ```
@@ -52,7 +52,7 @@ Get file size
 FileSystem::file_size($FilePath);
 ```
 
-get bunch of informations about file list
+Get bunch of informations about file list
 ```
 FileSystem::get_file_list_infos($files);
 ```
@@ -91,3 +91,7 @@ Get unix file permissions
 ```
 FileSystem::unix_file_permissions($path);
 ```
+
+## Author
+
+Hugo Maugey [visit my website ;)](https://hugo.maugey.fr)

@@ -444,7 +444,7 @@ class FileSystem
         $errors = 0;
         if(is_dir($directory))
         {
-            foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory, RecursiveDirectoryIterator::SKIP_DOTS)) as $file)
+            foreach(new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($directory, \RecursiveDirectoryIterator::SKIP_DOTS)) as $file)
             {
                 $file_last_mod = new DateTime('@'.filemtime($file));
 
