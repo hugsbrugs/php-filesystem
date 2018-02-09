@@ -92,7 +92,51 @@ class FileSystem
             error_log('rrmdir : '.$e->getMessage());
         }
         return $result;
-    } 
+    }
+
+    /**
+     * Copy a file, or recursively copy a folder and its contents
+     *
+     * http://stackoverflow.com/questions/2050859/copy-entire-contents-of-a-directory-to-another-using-php
+     *
+     * @param       string   $source    Source path
+     * @param       string   $dest      Destination path
+     * @param       string   $permissions New folder creation permissions
+     * @return      bool     Returns true on success, false on failure
+     */
+    public static function rcopy($source, $dest, $permissions = 0755)
+    {
+        // Check for symlinks
+        if (is_link($source)) {
+            return symlink(readlink($source), $dest);
+        }
+
+        // Simple copy for a file
+        if (is_file($source)) {
+            return copy($source, $dest);
+        }
+
+        // Make destination directory (recursive)
+        if (!is_dir($dest)) {
+            mkdir($dest, $permissions, true);
+        }
+
+        // Loop through the folder
+        $dir = dir($source);
+        while (false !== $entry = $dir->read()) {
+            // Skip pointers
+            if ($entry == '.' || $entry == '..') {
+                continue;
+            }
+
+            // Deep copy directories
+            FileSystem::rcopy("$source/$entry", "$dest/$entry");
+        }
+
+        // Clean up
+        $dir->close();
+        return true;
+    }
 
     /**
      * http://stackoverflow.com/questions/13372179/creating-a-folder-when-i-run-file-put-contents
@@ -100,11 +144,12 @@ class FileSystem
      *
      * @param String $filename
      * @param String $data
-     * @return 
+     * @return array $res status:success|error, message
      */
     public static function force_file_put_contents($filename, $data, $flags = 0, $context = null)
     {
         $Response = ['status' => 'error', 'message' => ''];
+
         try 
         {
             $isInFolder = preg_match("/^(.*)\/([^\/]+)$/", $filename, $filenameMatches);
@@ -142,6 +187,7 @@ class FileSystem
             $Response['message'] = 'EXCEPTION';
             error_log('force_file_put_contents : ' . $e->getMessage());
         }
+
         return $Response;
     }
 

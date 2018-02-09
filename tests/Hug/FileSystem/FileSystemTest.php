@@ -126,6 +126,32 @@ final class FileSystemTest extends TestCase
     // rrmdir($dir, $del_dir = true)
     
     /* ************************************************* */
+    /* ****** FileSystem::rcopy ****** */
+    /* ************************************************* */
+    
+    /**
+     *
+     */
+    // public function testCanRecursiveCopyFile()
+    // {
+    //     $source = __DIR__ . '/../../../composer.json';
+    //     $dest = '/tmp/composer-test-move.json';
+    //     $test = FileSystem::rcopy($source, $dest);
+    //     $this->assertTrue($test);
+    // }
+
+    /**
+     *
+     */
+    // public function testCanRecursiveCopyFolder()
+    // {
+    //     $source = __DIR__ . '/../../../build';
+    //     $dest = '/tmp/build-test';
+    //     $test = FileSystem::rcopy($source, $dest);
+    //     $this->assertTrue($test);
+    // }
+
+    /* ************************************************* */
     /* ****** FileSystem::force_file_put_contents ****** */
     /* ************************************************* */
 
