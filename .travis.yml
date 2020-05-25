@@ -1,7 +1,7 @@
 language: php
 
 php:
- - 7
+ - 7.2
 
 before_script:
  - wget http://getcomposer.org/composer.phar
@@ -13,7 +13,7 @@ script:
  # - php coverage-checker.php build/logs/clover.xml 75
 
 after_script:
- - php vendor/bin/coveralls -v -x build/logs/clover.xml
+ - php vendor/bin/php-coveralls -v -x build/logs/clover.xml
 
 #after_success:
   # - travis_retry php vendor/bin/coveralls
